@@ -7,7 +7,8 @@ async function handler(req: NextRequest) {
 
         const prismaResponse = await prisma.user.findFirst({where: {
             email: data.email
-        }});
+        }, include: { link : true}
+    });
     
         return NextResponse.json(prismaResponse);
     } catch (error){
