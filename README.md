@@ -1,0 +1,2 @@
+# FastCutLink
+Encurtador de Link
