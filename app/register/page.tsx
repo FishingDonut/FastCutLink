@@ -38,8 +38,8 @@ export default function page() {
 
                     <Grid container alignItems="center" flexDirection="column" display="flex" spacing={1} margin={1}>
 
-                        <Box display="flex" flexDirection="column" margin={6}>
-                            <Typography color="primary" variant="h4">Cadastro</Typography>
+                        <Box display="flex" flexDirection="column" marginX={6}>
+                            <Typography color="secondary" variant="h4" fontWeight="bold">Cadastro</Typography>
                             <Typography color="gray" variant="subtitle1">Vamos criar a sua conta.</Typography>
                         </Box>
 
@@ -71,7 +71,7 @@ export default function page() {
                             </Box>
 
                             <Grid size={12}>
-                                <Button color="secondary" type="submit" fullWidth variant="contained">
+                                <Button color="primary" type="submit" fullWidth variant="contained">
                                     <Typography fontWeight="bold">CADASTRAR</Typography>
                                 </Button>
                             </Grid>
