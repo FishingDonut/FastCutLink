@@ -35,34 +35,36 @@ export default function page() {
             <Box margin={1} flexDirection="column" display="flex" alignItems="center" height="100vh">
                 <form onSubmit={handleSubmit(onSubmit)}>
 
-                    <Grid margin={2}><Typography variant="h4" color="secondary" fontWeight="bold">Cadastro</Typography></Grid>
+                    <Grid container alignItems="center" flexDirection="column" display="flex" spacing={1} margin={1}>
 
-                    <Grid margin={2}>
-                        <FormControl error={!!errors?.email} variant="standard">
-                            <Input {...register('email')} placeholder="Email" type="email"></Input>
-                            {errors?.email && <FormHelperText id={"email-error"}>{errors?.email.message}</FormHelperText>}
-                        </FormControl>
+                        <Grid margin={2}><Typography variant="h4" color="secondary" fontWeight="bold">Cadastro</Typography></Grid>
+
+                        <Grid margin={2}>
+                            <FormControl error={!!errors?.email} variant="standard">
+                                <Input {...register('email')} placeholder="Email" type="email"></Input>
+                                {errors?.email && <FormHelperText id={"email-error"}>{errors?.email.message}</FormHelperText>}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid margin={2}>
+                            <FormControl error={errors?.password ? true : false} variant="standard">
+                                <Input  {...register('password')} placeholder="Senha" type="password"></Input>
+                            </FormControl>
+                        </Grid>
+
+                        <Grid margin={2}>
+                            <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
+                                <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
+                            </FormControl>
+
+                        </Grid>
+
+                        <Grid margin={2}>
+                            <Button type="submit" fullWidth variant="contained">
+                                <Typography fontWeight="bold">CADASTRAR</Typography>
+                            </Button>
+                        </Grid>
                     </Grid>
-
-                    <Grid margin={2}>
-                        <FormControl error={errors?.password ? true : false} variant="standard">
-                            <Input  {...register('password')} placeholder="Senha" type="password"></Input>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid margin={2}>
-                        <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
-                            <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
-                        </FormControl>
-
-                    </Grid>
-
-                    <Grid margin={2}>
-                        <Button type="submit" fullWidth variant="contained">
-                            <Typography fontWeight="bold">CADASTRAR</Typography>
-                        </Button>
-                    </Grid>
-
                 </form>
             </Box>
         </>
