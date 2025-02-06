@@ -6,8 +6,12 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+
+    const [messageError, setMessageError] = useState<String>("");
 
     const registerSchema = z.object({
         email: z.string().email("Presisa ser um email valido"),
@@ -25,8 +29,28 @@ export default function page() {
         resolver: zodResolver(registerSchema)
     });
 
-    const onSubmit = (data: RegisterSchema) => {
-        console.log(data);
+    const router = useRouter();
+
+    const handleRegisterFormSuccess = async (data: RegisterSchema) => {
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "user", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            
+            if(!response.ok){
+                const erroData = await response.json();
+                setMessageError(erroData?.message || "Failed to register user");
+            }
+
+            if(response.status == 201){
+                setMessageError("");
+                router.push('/');
+            }
+        } catch (error) {
+          console.log(error);  
+        }
     }
 
     return (
@@ -34,13 +58,14 @@ export default function page() {
             <Grid alignItems="center" flexDirection="column" display="flex" margin={2}><Image width={250} height={250} alt="logo" src="/image/logo3.png" /></Grid>
 
             <Box margin={1} flexDirection="column" display="flex" alignItems="center">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(handleRegisterFormSuccess)}>
 
                     <Grid container alignItems="center" flexDirection="column" display="flex" spacing={1} margin={1}>
 
                         <Box display="flex" flexDirection="column" marginX={6}>
                             <Typography color="secondary" variant="h4" fontWeight="bold">Cadastro</Typography>
                             <Typography color="gray" variant="subtitle1">Vamos criar a sua conta.</Typography>
+                            {messageError && <Typography variant="subtitle2" color="error" id={"api-error"}>{messageError}</Typography>}
                         </Box>
 
                         <Grid spacing={4} container margin={1} display="flex" justifyContent="center">
