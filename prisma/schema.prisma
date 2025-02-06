@@ -8,16 +8,22 @@ generator client {
 }
 
 model User {
-    id Int @unique @default(autoincrement())
-    email String @unique
-    password String
-    link Link[]
+    id        Int      @unique @default(autoincrement())
+    email     String   @unique
+    password  String
+    link      Link[]
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Link {
-    id Int @unique @default(autoincrement())
-    fullLink String
-    shortLink String @unique
-    user User @relation(fields: [userId], references: [id])
-    userId Int
+    id        Int      @unique @default(autoincrement())
+    fullLink  String
+    shortLink String   @unique
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    isDeleted Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
