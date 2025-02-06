@@ -10,12 +10,12 @@ import Link from 'next/link';
 export default function page() {
 
     const registerSchema = z.object({
-        email: z.string().email("Need email"),
-        password: z.string().min(8, "Need 8"),
-        passwordConfirm: z.string().min(8, "Need 8")
+        email: z.string().email("Presisa ser um email valido"),
+        password: z.string().min(8, "Presisa ter 8 caracteres."),
+        passwordConfirm: z.string().min(8, "Presisa ter 8 caracteres.")
     }).refine((data) => data.password === data.passwordConfirm, {
         path: ['passwordConfirm'],
-        message: "Passwords do not match."
+        message: "A senha tem que ser igual."
     });
 
     type RegisterSchema = z.infer<typeof registerSchema>;
@@ -54,12 +54,14 @@ export default function page() {
                             <Grid>
                                 <FormControl error={errors?.password ? true : false} variant="standard">
                                     <Input  {...register('password')} placeholder="Senha" type="password"></Input>
+                                    {errors?.password && <FormHelperText id={"password-error"}>{errors?.password.message}</FormHelperText>}
                                 </FormControl>
                             </Grid>
 
                             <Grid>
                                 <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
                                     <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
+                                    {errors?.passwordConfirm && <FormHelperText id={"passwordConfirm-error"}>{errors?.passwordConfirm.message}</FormHelperText>}
                                 </FormControl>
 
                             </Grid>
