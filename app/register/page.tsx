@@ -68,22 +68,22 @@ export default function page() {
                             {messageError && <Typography variant="subtitle2" color="error" id={"api-error"}>{messageError}</Typography>}
                         </Box>
 
-                        <Grid spacing={4} container margin={1} display="flex" justifyContent="center">
-                            <Grid>
+                        <Grid spacing={4} container margin={1} display="flex" flexDirection="column" justifyContent="center">
+                            <Grid size={12}>
                                 <FormControl error={!!errors?.email} variant="standard">
                                     <Input {...register('email')} placeholder="Email" type="email"></Input>
                                     {errors?.email && <FormHelperText id={"email-error"}>{errors?.email.message}</FormHelperText>}
                                 </FormControl>
                             </Grid>
 
-                            <Grid>
+                            <Grid size={12}>
                                 <FormControl error={errors?.password ? true : false} variant="standard">
                                     <Input  {...register('password')} placeholder="Senha" type="password"></Input>
                                     {errors?.password && <FormHelperText id={"password-error"}>{errors?.password.message}</FormHelperText>}
                                 </FormControl>
                             </Grid>
 
-                            <Grid>
+                            <Grid size={12}>
                                 <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
                                     <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
                                     {errors?.passwordConfirm && <FormHelperText id={"passwordConfirm-error"}>{errors?.passwordConfirm.message}</FormHelperText>}
