@@ -5,6 +5,7 @@ import Image from "next/image";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from 'next/link';
 
 export default function page() {
 
@@ -32,15 +33,15 @@ export default function page() {
         <>
             <Grid alignItems="center" flexDirection="column" display="flex" margin={2}><Image width={250} height={250} alt="logo" src="/image/logo3.png" /></Grid>
 
-            <Box margin={1} flexDirection="column" display="flex" alignItems="center" height="100vh">
+            <Box margin={1} flexDirection="column" display="flex" alignItems="center">
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <Grid container alignItems="center" flexDirection="column" display="flex" spacing={1} margin={1}>
 
-                    <Box display="flex" flexDirection="column" margin={6}>
-                    <Typography color="primary" variant="h4">Cadastro</Typography>
-                    <Typography color="gray" variant="subtitle1">Vamos criar a sua conta.</Typography>
-                </Box>
+                        <Box display="flex" flexDirection="column" margin={6}>
+                            <Typography color="primary" variant="h4">Cadastro</Typography>
+                            <Typography color="gray" variant="subtitle1">Vamos criar a sua conta.</Typography>
+                        </Box>
 
                         <Grid spacing={4} container margin={1} display="flex" justifyContent="center">
                             <Grid>
@@ -62,6 +63,10 @@ export default function page() {
                                 </FormControl>
 
                             </Grid>
+
+                            <Box display="flex" flexDirection="column" alignItems="center" maxWidth={200}>
+                                <Typography color="gray" variant="subtitle2">By signing up you agree to our <Typography component={Link} href="/terms" color="white" style={{ textDecoration: 'underline' }}>Terms</Typography>, <Typography component={Link} href="/privacy-policy" color="white" style={{ textDecoration: 'underline' }}>Privacy Policy</Typography>, and <Typography component={Link} href="/cookie-policy" color="white" style={{ textDecoration: 'underline' }}>Cookie Use</Typography></Typography>
+                            </Box>
 
                             <Grid size={12}>
                                 <Button color="secondary" type="submit" fullWidth variant="contained">
