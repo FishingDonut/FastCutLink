@@ -37,32 +37,37 @@ export default function page() {
 
                     <Grid container alignItems="center" flexDirection="column" display="flex" spacing={1} margin={1}>
 
-                        <Grid margin={2}><Typography variant="h4" color="secondary" fontWeight="bold">Cadastro</Typography></Grid>
+                    <Box display="flex" flexDirection="column" margin={6}>
+                    <Typography color="primary" variant="h4">Cadastro</Typography>
+                    <Typography color="gray" variant="subtitle1">Vamos criar a sua conta.</Typography>
+                </Box>
 
-                        <Grid margin={2}>
-                            <FormControl error={!!errors?.email} variant="standard">
-                                <Input {...register('email')} placeholder="Email" type="email"></Input>
-                                {errors?.email && <FormHelperText id={"email-error"}>{errors?.email.message}</FormHelperText>}
-                            </FormControl>
-                        </Grid>
+                        <Grid spacing={4} container margin={1} display="flex" justifyContent="center">
+                            <Grid>
+                                <FormControl error={!!errors?.email} variant="standard">
+                                    <Input {...register('email')} placeholder="Email" type="email"></Input>
+                                    {errors?.email && <FormHelperText id={"email-error"}>{errors?.email.message}</FormHelperText>}
+                                </FormControl>
+                            </Grid>
 
-                        <Grid margin={2}>
-                            <FormControl error={errors?.password ? true : false} variant="standard">
-                                <Input  {...register('password')} placeholder="Senha" type="password"></Input>
-                            </FormControl>
-                        </Grid>
+                            <Grid>
+                                <FormControl error={errors?.password ? true : false} variant="standard">
+                                    <Input  {...register('password')} placeholder="Senha" type="password"></Input>
+                                </FormControl>
+                            </Grid>
 
-                        <Grid margin={2}>
-                            <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
-                                <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
-                            </FormControl>
+                            <Grid>
+                                <FormControl error={errors?.passwordConfirm ? true : false} variant="standard">
+                                    <Input {...register('passwordConfirm')} placeholder="Repita a senha" type="password"></Input>
+                                </FormControl>
 
-                        </Grid>
+                            </Grid>
 
-                        <Grid margin={2}>
-                            <Button type="submit" fullWidth variant="contained">
-                                <Typography fontWeight="bold">CADASTRAR</Typography>
-                            </Button>
+                            <Grid size={12}>
+                                <Button color="secondary" type="submit" fullWidth variant="contained">
+                                    <Typography fontWeight="bold">CADASTRAR</Typography>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </form>
