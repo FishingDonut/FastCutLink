@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import CredentialsProvider  from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface Session {
@@ -31,12 +31,20 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/find`, {
+
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Authentication failed.");
+          }
+
+          const { email, password } = credentials;
+
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: {id: credentials?.email}
+            body: JSON.stringify({email: email, password: password})
           });
 
           if (!response.ok) {
@@ -45,10 +53,6 @@ export const authOptions: NextAuthOptions = {
           }
 
           const user = await response.json();
-
-          if (user.password !== credentials?.password || !user) {
-            throw new Error("Authentication failed");
-          }
 
           return user;
         } catch (error) {
@@ -63,7 +67,6 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.fullName = user.fullName;
       }
       return token;
     },
@@ -71,8 +74,6 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.email = token.email;
-      session.user.fullName = token.fullName;
-
       return session;
     },
   },
