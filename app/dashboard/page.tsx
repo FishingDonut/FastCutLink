@@ -13,36 +13,33 @@ export default function Page() {
 
     const router = useRouter();
 
+    
     useEffect(() => {
         const fetchData = async () => {
-            // Verifica o status da sessão e redireciona se necessário
-            if (status === "loading" || !session || !session.user) {
-                return; // Se a sessão está carregando ou não existe, sai da execução
-            }
-
-            if (status !== "authenticated") {
-                router.push("/"); // Redireciona para a página inicial caso não esteja autenticado
-                return; // Retorna para evitar execução do código abaixo
-            }
-
             try {
-                const response: Link | null = await useGetLinks(session);
-
-                if (!response) {
-                    router.push("/"); // Se não houver link, redireciona
-                    return; // Retorna para evitar setar o estado de links
+                if(status === "loading" || !session || !session.user){
+                    return;
                 }
 
-                setlinks(response); // Agora só define o estado se a resposta for válida
+                if (status != "authenticated") {
+                    router.push("/");
+                    return
+                };
 
+                const response: Link|null = await useGetLinks(session);
+
+                if (!response) {
+                    router.push("/");
+                }
+                
+                setlinks(response);
             } catch (error) {
-                router.push("/"); // Se ocorrer erro, redireciona
-                console.error(error); // Exibe o erro no console
+                router.push("/");
+                throw (error);
             }
         }
-
-        fetchData(); // Chama a função assíncrona
-    }, [router, status, session]);
+        fetchData();
+    }, [router, status, session])
 
     return (
         <Grid container display="flex" flexDirection="column" alignContent="center">
