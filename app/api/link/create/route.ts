@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
-import { randomUUID } from "crypto";
 
 async function handler(req: NextRequest, res: NextResponse) {
     try{
