@@ -16,12 +16,21 @@ export default function Home() {
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Crie uma conta e faça Login{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              /login
-            </code>
+            <a href="/login">
+              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+                /login
+              </code>
+            </a>
             .
           </li>
-          <li>Acesse o painel para gerenciar os links.</li>
+          <li>Acesse o painel para gerenciar os links.{" "}
+            <a href="/dashboard">
+
+              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+                /dashboard
+              </code>
+            </a>
+          </li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
@@ -30,7 +39,7 @@ export default function Home() {
             href="/register"
             target="_blank"
             rel="noopener noreferrer"
-          >  
+          >
             Cadastro
           </a>
           <a
