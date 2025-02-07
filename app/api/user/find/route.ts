@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
+import { User } from "@prisma/client";
 
 async function handler(req: NextRequest) {
     try{
         const data = await req.json();
 
-        const prismaResponse = await prisma.user.findFirst({where: {
+        const prismaResponse: User|null = await prisma.user.findFirst({where: {
             email: data.email
         }, include: { link : true}
     });
