@@ -14,7 +14,7 @@ async function handler(req: NextRequest) {
         const prismaResponse = await prisma.user.findFirst({
             where: {
                 email: email
-            }, include: { link: true }
+            }, include: { link: false }
         });
 
         if (!prismaResponse) {
@@ -22,7 +22,7 @@ async function handler(req: NextRequest) {
         }
 
         if (prismaResponse.password === password) {
-            return NextResponse.json({ message: "Success" }, { status: 200 });
+            return NextResponse.json({ id: prismaResponse.id, email: prismaResponse.email }, { status: 200 });
         }
 
         return NextResponse.json({ message: "Senha ou Email errado." }, { status: 400 });
