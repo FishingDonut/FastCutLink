@@ -18,7 +18,7 @@ export default function Page() {
     const { data: session, status } = useSession();
     const [links, setlinks] = useState<Link[] | null>(null);
 
-    const titles: [value: string] = ["Id", "Name", "FullLink", "ShortLink", "Date"];
+    const titles = ["Id", "Name", "FullLink", "ShortLink", "Date"];
 
     const router = useRouter();
 
@@ -59,11 +59,12 @@ export default function Page() {
                     Seus Links
                 </Typography>
             </Grid>
-            <Grid>
+            <Grid margin={0} padding={0} spacing={0} size={1}></Grid>
+            <Grid size={10} margin={1}>
                 <TableContainer>
                     <Table>
                         <TableHead>
-                            <TableRow>
+                            <TableRow key={0}>
                                 {
                                     titles.map((title) => (
                                         <TableCell align="center">
@@ -97,6 +98,7 @@ export default function Page() {
                     </Table>
                 </TableContainer>
             </Grid>
+            <Grid margin={0} padding={0} spacing={0} size={1}></Grid>
         </Grid >
     );
 }
