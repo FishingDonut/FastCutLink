@@ -10,9 +10,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-export default function page() {
+export default function Page() {
 
-    const [messageError, setMessageError] = useState<String>("");
+    const [messageError, setMessageError] = useState<string>("");
 
     const registerSchema = z.object({
         email: z.string().email("Presisa ser um email valido"),

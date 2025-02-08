@@ -1,7 +1,7 @@
-import { Link, User } from "@prisma/client";
+import { Link } from "@prisma/client";
 import { Session } from "next-auth";
 
-export default async function useGetLinks(session: Session | null): Promise<Link[] | null> {
+export default async function UseGetLinks(session: Session | null): Promise<Link[] | null> {
     try {
         const response = await fetch("api/user/find", {
             method: "POST",

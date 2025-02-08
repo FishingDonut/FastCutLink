@@ -2,14 +2,14 @@
 
 import { Grid2 as Grid, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 import { useEffect, useState } from "react";
-import useGetLinks from "./useGetLinks";
+import UseGetLinks from "./UseGetLinks";
 import { useSession } from "next-auth/react";
 import { Link } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-const formatDate =  (dateString: string | Date) => {
+const formatDate = (dateString: string | Date) => {
     const date = new Date(dateString);
     return format(date, "dd/MM/yyyy", { locale: ptBR });
 }
@@ -17,6 +17,8 @@ const formatDate =  (dateString: string | Date) => {
 export default function Page() {
     const { data: session, status } = useSession();
     const [links, setlinks] = useState<Link[] | null>(null);
+
+    const titles: [value: string] = ["Id", "Name", "FullLink", "ShortLink", "Date"];
 
     const router = useRouter();
 
@@ -34,7 +36,7 @@ export default function Page() {
                     return
                 };
 
-                const response: Link[] | null = await useGetLinks(session);
+                const response: Link[] | null = await UseGetLinks(session);
 
                 if (!response) {
                     router.push("/");
@@ -53,8 +55,8 @@ export default function Page() {
     return (
         <Grid container display="flex" flexDirection="column" alignContent="center">
             <Grid>
-                <Typography variant="h2" fontWeight="bold" color="primary">
-                    DashBoard
+                <Typography variant="h3" fontWeight="bold" color="primary">
+                    Seus Links
                 </Typography>
             </Grid>
             <Grid>
@@ -62,21 +64,29 @@ export default function Page() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>FullLink</TableCell>
-                                <TableCell>ShortLink</TableCell>
-                                <TableCell>Data</TableCell>
+                                {
+                                    titles.map((title) => (
+                                        <TableCell align="center">
+                                            <Typography color="primary.dark">{title}</Typography>
+                                        </TableCell>
+                                    ))
+                                }
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {
                                 links && (
-                                    links.map((link) => (
-                                        <TableRow >
-                                            <TableCell>{link.id}</TableCell>
+                                    links.map((link, index) => (
+                                        <TableRow key={link.id}>
+                                            <TableCell>
+                                                <Typography color="secondary">{index + 1}</Typography>
+                                            </TableCell>
                                             <TableCell>{link.name}</TableCell>
-                                            <TableCell>{link.fullLink}</TableCell>
+                                            <TableCell>
+                                                <a href={link.fullLink}>
+                                                    {link.fullLink}
+                                                </a>
+                                            </TableCell>
                                             <TableCell>{link.shortLink}</TableCell>
                                             <TableCell>{formatDate(link.createdAt)}</TableCell>
                                         </TableRow>
@@ -87,6 +97,6 @@ export default function Page() {
                     </Table>
                 </TableContainer>
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
