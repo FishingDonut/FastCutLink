@@ -4,35 +4,44 @@ import { Grid2 as Grid, Typography, TableContainer, Table, TableHead, TableRow, 
 import { useEffect, useState } from "react";
 import useGetLinks from "./useGetLinks";
 import { useSession } from "next-auth/react";
-import { Link, User } from "@prisma/client";
+import { Link } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+const formatDate =  (dateString: string | Date) => {
+    const date = new Date(dateString);
+    return format(date, "dd/MM/yyyy", { locale: ptBR });
+}
 
 export default function Page() {
     const { data: session, status } = useSession();
-    const [links, setlinks] = useState<Link | null>(null);
+    const [links, setlinks] = useState<Link[] | null>(null);
 
     const router = useRouter();
 
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if(status === "loading" || !session || !session.user){
+                console.log("=== START ===")
+                if (status === "loading") {
                     return;
                 }
 
-                if (status != "authenticated") {
+                if (status != "authenticated" || !session || !session.user) {
                     router.push("/");
                     return
                 };
 
-                const response: Link|null = await useGetLinks(session);
+                const response: Link[] | null = await useGetLinks(session);
 
                 if (!response) {
                     router.push("/");
                 }
-                
+
                 setlinks(response);
+                console.log("=== END ===")
             } catch (error) {
                 router.push("/");
                 throw (error);
@@ -55,13 +64,25 @@ export default function Page() {
                             <TableRow>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
+                                <TableCell>FullLink</TableCell>
+                                <TableCell>ShortLink</TableCell>
+                                <TableCell>Data</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow >
-                                <TableCell>1</TableCell>
-                                <TableCell>jorge</TableCell>
-                            </TableRow>
+                            {
+                                links && (
+                                    links.map((link) => (
+                                        <TableRow >
+                                            <TableCell>{link.id}</TableCell>
+                                            <TableCell>{link.name}</TableCell>
+                                            <TableCell>{link.fullLink}</TableCell>
+                                            <TableCell>{link.shortLink}</TableCell>
+                                            <TableCell>{formatDate(link.createdAt)}</TableCell>
+                                        </TableRow>
+                                    ))
+                                )
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
