@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
-import { Prisma } from "@prisma/client";
 
 interface Idata {
     email: string,
@@ -8,7 +7,7 @@ interface Idata {
     passwordConfirm?: string
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         const { email, password }: Idata = await req.json();
 

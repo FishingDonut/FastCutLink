@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, FormControl, FormHelperText, Grid2 as Grid, Input, InputLabel, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, Grid2 as Grid, Input, Typography } from "@mui/material";
 import Image from "next/image";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

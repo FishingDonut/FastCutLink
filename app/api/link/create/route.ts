@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
 
-async function handler(req: NextRequest, res: NextResponse) {
+async function handler(req: NextRequest) {
     try{
         const data = await req.json();
         
