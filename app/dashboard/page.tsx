@@ -157,12 +157,13 @@ export default function Page() {
                 <Box
                     padding={2}
                     component={Paper}
-                    bgcolor="ActiveBorder"
+                    bgcolor="black"
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
                     position="absolute"
-                    top="50%"
+                    top="25%"
+                    bottom="25%"
                     left="25%"
                     right="25%"
                 >
