@@ -168,7 +168,8 @@ export default function Page() {
                     right="25%"
                 >
                     <Grid size={12} id="title-modal">
-                        <Typography variant="h2" color="primary" fontWeight="bold">Criar Link</Typography>
+                        <Typography variant="h2" color="primary" className="hidden sm:block" fontWeight="bold">Criar Link</Typography>
+                        <Typography variant="h6" color="primary" className="block sm:hidden" fontWeight="bold">Criar Link</Typography>
                     </Grid>
                     <Grid margin={2} size={12} id="body">
                         <form onSubmit={(event) => { onCreateUserLink(event) }}>
