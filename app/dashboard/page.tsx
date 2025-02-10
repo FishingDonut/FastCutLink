@@ -5,7 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { FormEvent, useEffect, useState } from "react";
-import UseGetLinks from "@/app/dashboard/UseGetLinks";
+import UseGetLinks from "@/app/dashboard/useGetLinks";
 import { useSession } from "next-auth/react";
 import { Link } from "@prisma/client";
 import { useRouter } from "next/navigation";
