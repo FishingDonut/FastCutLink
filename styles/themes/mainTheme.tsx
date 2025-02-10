@@ -10,15 +10,15 @@ export default function ThemeMain({ children }: Readonly<{
     palette: {
       mode: 'dark',
       primary: {
-        main: '#cdfd54',
-        light: '#e1fe9e',
-        dark: '#bae823',
+        main: '#cb02ee',
+        light: '#e28bf5',
+        dark: '#ac00e5',
         contrastText: '#fff',
       },
       secondary: {
-        main: '#6229f3',
-        light: '#9a71f8',
-        dark: '#2114df',
+        main: '#25ee02',
+        light: '#b0fa9e',
+        dark: '#00c700',
         contrastText: '#fff',
       },
       background: {
