@@ -17,15 +17,6 @@ const formatDate = (dateString: string | Date) => {
     return format(date, "dd/MM/yyyy", { locale: ptBR });
 }
 
-const onDelete = async (id: number) => {
-    await fetch("api/link/delete", {
-        method: "DELETE",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id })
-    });
-}
-
-
 export default function Page() {
     const { data: session, status } = useSession();
     const [links, setlinks] = useState<Link[] | null>(null);
@@ -35,7 +26,17 @@ export default function Page() {
 
     const router = useRouter();
 
-
+    const onDelete = async (id: number) => {
+        const response = await fetch("api/link/delete", {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        });
+        if(response.ok){
+            setlinks((prevLinks) => prevLinks ? prevLinks.filter(link => link.id !== id) : [])
+        }
+    }
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -63,7 +64,7 @@ export default function Page() {
             }
         }
         fetchData();
-    }, [router, status, session, onDelete])
+    }, [router, status, session])
 
     const onCreateUserLink = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -71,7 +72,7 @@ export default function Page() {
 
         const { name, fullLink } = await { name: formData.get("name"), fullLink: formData.get("fullLink") }
         
-        await fetch("api/link/create", {
+        const response = await fetch("api/link/create", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -80,6 +81,13 @@ export default function Page() {
                 fullLink: fullLink
             })
         });
+
+        const newLink = await response.json();
+
+        if(response.ok){
+            setlinks((prevLinks) => prevLinks? [...prevLinks, newLink] : [newLink]);
+            setOpen(false);
+        }
     }
 
     return (
