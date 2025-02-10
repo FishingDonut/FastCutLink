@@ -67,8 +67,8 @@ export default function Page() {
                             <TableRow key={0}>
                                 {
                                     titles.map((title) => (
-                                        <TableCell align="center">
-                                            <Typography color="primary.dark">{title}</Typography>
+                                        <TableCell align="left">
+                                            <Typography fontWeight="bold" color="primary.dark">{title}</Typography>
                                         </TableCell>
                                     ))
                                 }
@@ -82,7 +82,9 @@ export default function Page() {
                                             <TableCell>
                                                 <Typography color="secondary">{index + 1}</Typography>
                                             </TableCell>
-                                            <TableCell>{link.name}</TableCell>
+                                            <TableCell>
+                                            <Typography fontWeight="bold">{link.name}</Typography>
+                                                </TableCell>
                                             <TableCell>
                                                 <a href={link.fullLink}>
                                                     {link.fullLink}
