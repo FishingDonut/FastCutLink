@@ -32,11 +32,11 @@ export default function Page() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id })
         });
-        if(response.ok){
+        if (response.ok) {
             setlinks((prevLinks) => prevLinks ? prevLinks.filter(link => link.id !== id) : [])
         }
     }
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -71,7 +71,7 @@ export default function Page() {
         const formData = new FormData(event.currentTarget);
 
         const { name, fullLink } = await { name: formData.get("name"), fullLink: formData.get("fullLink") }
-        
+
         const response = await fetch("api/link/create", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -84,8 +84,8 @@ export default function Page() {
 
         const newLink = await response.json();
 
-        if(response.ok){
-            setlinks((prevLinks) => prevLinks? [...prevLinks, newLink] : [newLink]);
+        if (response.ok) {
+            setlinks((prevLinks) => prevLinks ? [...prevLinks, newLink] : [newLink]);
             setOpen(false);
         }
     }
@@ -110,8 +110,8 @@ export default function Page() {
                         <TableHead>
                             <TableRow key={0}>
                                 {
-                                    titles.map((title) => (
-                                        <TableCell align="left">
+                                    titles.map((title, index) => (
+                                        <TableCell key={index} align="left">
                                             <Typography fontWeight="bold" color="secondary">{title}</Typography>
                                         </TableCell>
                                     ))
