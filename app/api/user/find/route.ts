@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
 import { Prisma} from "@prisma/client";
 
-type User = Prisma.UserGetPayload<{}>;
+type User = Prisma.UserGetPayload<true>;
 
 async function handler(req: NextRequest) {
     try{
