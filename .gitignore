@@ -42,3 +42,7 @@ next-env.d.ts
 
 #prisma
 /prisma/migrations/
+
+#vercel
+.vercel
+vercel.json
