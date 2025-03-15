@@ -1,98 +1,55 @@
 import { NextAuthOptions } from "next-auth";
-import { TypeORMLegacyAdapter } from "@next-auth/typeorm-legacy-adapter";
-import { DataSourceOptions } from "typeorm";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import { compare } from "bcryptjs";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      email: string;
-    };
-  }
-
-  interface User {
-    id: string;
-    email: string;
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string;
-    email: string;
-  }
-}
-
-const dataSourceOptions: DataSourceOptions = {
-  type: "postgres", // Verifique se é "mysql" ou "postgres"
-  host: process.env.POSTGRES_HOST, // Corrija os nomes das variáveis de ambiente
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE,
-  synchronize: false, // Desativa a sincronização automática
-  entities: [], // Adicione suas entidades aqui, se necessário
-};
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
-  adapter: TypeORMLegacyAdapter(dataSourceOptions),
-  secret: process.env.NEXTAUTH_SECRET,
+  adapter: PrismaAdapter(prisma), // Usa Prisma como Adapter
   providers: [
     CredentialsProvider({
       name: "Credentials",
-
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email", type: "email", placeholder: "email@example.com" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
-        try {
+        if (!credentials?.email || !credentials?.password) return null;
 
-          if (!credentials?.email || !credentials?.password) {
-            throw new Error("Authentication failed.");
-          }
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-          const { email, password } = credentials;
+        if (!user) return null; // Usuário não encontrado
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: email, password: password })
-          });
+        const isValidPassword = await compare(credentials.password, user.password);
+        if (!isValidPassword) return null; // Senha incorreta
 
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || "Authentication failed");
-          }
-
-          const user = await response.json();
-
-          return user;
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          throw new Error(errorMessage);
-        }
+        return {
+          id: user.id.toString(),
+          name: user.email, // Pode mudar para `user.name` se quiser
+          email: user.email,
+        };
       },
     }),
   ],
+  session: {
+    strategy: "jwt", // Mantém a sessão com JWT
+  },
   callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
+        token.sub = user.id;
       }
       return token;
     },
-
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.email = token.email;
-      return session;
-    },
-  },
-  pages: {
-    signIn: "/login",
   },
 };
