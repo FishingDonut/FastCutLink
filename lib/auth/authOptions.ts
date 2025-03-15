@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import CredentialsProvider  from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface Session {
@@ -24,7 +24,14 @@ declare module "next-auth/jwt" {
 
 export const authOptions: NextAuthOptions = {
   debug: true,
-  secret: process.env.NEXTAUTH_SECRET,
+  adapter: TypeORMLegacyAdapter({
+    type: 'postgresql',
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_DB,
+    synchronize: false
+  }), secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -46,7 +53,7 @@ export const authOptions: NextAuthOptions = {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({email: email, password: password})
+            body: JSON.stringify({ email: email, password: password })
           });
 
           if (!response.ok) {
