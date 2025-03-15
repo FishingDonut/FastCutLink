@@ -25,14 +25,14 @@ declare module "next-auth/jwt" {
 }
 
 const dataSourceOptions: DataSourceOptions = {
-  type: "postgres",
-  host: process.env.fast_POSTGRES_HOST,
-  username: process.env.fast_POSTGRES_USER,
-  password: process.env.fast_POSTGRES_PASSWORD,
-  database: process.env.fast_POSTGRES_DATABASE,
-  synchronize: false,
-  entities: []
-});
+  type: "postgres", // Verifique se é "mysql" ou "postgres"
+  host: process.env.POSTGRES_HOST, // Corrija os nomes das variáveis de ambiente
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE,
+  synchronize: false, // Desativa a sincronização automática
+  entities: [], // Adicione suas entidades aqui, se necessário
+};
 
 export const authOptions: NextAuthOptions = {
   debug: true,
