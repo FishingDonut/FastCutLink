@@ -1,4 +1,6 @@
 import { NextAuthOptions } from "next-auth";
+import { TypeORMLegacyAdapter } from "@next-auth/typeorm-legacy-adapter";
+import { DataSourceOptions } from "typeorm";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth" {
@@ -22,16 +24,20 @@ declare module "next-auth/jwt" {
   }
 }
 
+const dataSourceOptions: DataSourceOptions = {
+  type: "postgres",
+  host: process.env.fast_POSTGRES_HOST,
+  username: process.env.fast_POSTGRES_USER,
+  password: process.env.fast_POSTGRES_PASSWORD,
+  database: process.env.fast_POSTGRES_DATABASE,
+  synchronize: false,
+  entities: []
+});
+
 export const authOptions: NextAuthOptions = {
   debug: true,
-  adapter: TypeORMLegacyAdapter({
-    type: 'postgresql',
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_DB,
-    synchronize: false
-  }), secret: process.env.NEXTAUTH_SECRET,
+  adapter: TypeORMLegacyAdapter(dataSourceOptions),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
